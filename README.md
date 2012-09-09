@@ -1,7 +1,7 @@
 node-authy
 ==========
 
-Authy API Client for node.js
+[Authy](https://authy.com/) API Client for node.js
 
 Usage
 =====
