@@ -19,7 +19,7 @@
     "authy",
     "security"
   ],
-  "author": "Adam Baldwin",
+  "author": "Adam Baldwin <baldwin@andyet.net>",
   "license": "MIT",
   "dependencies": {
     "request": "~2.11.1"
