@@ -30,10 +30,14 @@ module.exports.register_user = function (email, cellphone, country_code, cb) {
         form: form,
         qs: qs
     }, function (err, res, body) {
-        if (res.statusCode === 200) {
-            cb(null, toJSON(body));
+        if (!err) {
+            if (res.statusCode === 200) {
+                cb(null, toJSON(body));
+            } else {
+                cb(JSON.parse(toJSON(body)));
+            }
         } else {
-            cb(JSON.parse(toJSON(body)));
+            throw new Error(err);
         }
     });
 };
@@ -52,11 +56,15 @@ module.exports.verify = function (id, token, force, cb) {
         url: url,
         qs: qs
     }, function (err, res, body) {
-        if (res.statusCode === 200) {
-            cb(null, toJSON(body));
+        if (!err) {
+            if (res.statusCode === 200) {
+                cb(null, toJSON(body));
+            } else {
+                cb(toJSON(body));
+            }
         } else {
-            cb(toJSON(body));
-        }
+            throw new Error(err);
+        } 
     });
 };
 
@@ -74,10 +82,14 @@ module.exports.request_sms = function (id, force, cb) {
         url: url,
         qs: qs
     }, function (err, res, body) {
-        if (res.statusCode === 200) {
-            cb(null, toJSON(body));
+        if (!err) {
+            if (res.statusCode === 200) {
+                cb(null, toJSON(body));
+            } else {
+                cb(toJSON(body));
+            }
         } else {
-            cb(toJSON(body));
+            throw new Error(err);
         }
     });
 };
