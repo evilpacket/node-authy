@@ -1,5 +1,5 @@
 var apikey = "41f3fe0a27e1c9cba05c30933811a2b8";
-var authy = require('../authy')(apikey,'http://sandbox-api.authy.com');
+var authy = require('../index')(apikey,'http://sandbox-api.authy.com');
 
 var test_user = {email: 'baldwin@andyet.net', phone: '509-555-1212', country: 'UK'};
 
@@ -31,7 +31,6 @@ exports['Register New User - Blank Email'] = function (test) {
  */
 exports['Verify Token'] = function (test) {
     authy.verify(test_user.id, '0000000', function (err, res) {
-        console.log(res);
         test.ok(res);
         test.done();
     });
