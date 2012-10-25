@@ -47,7 +47,7 @@ Verify Token
 verify(id, token, [force], callback);
 
 ```javascript
-authy.verify('1337', '0000000' function (err, res) {
+authy.verify('1337', '0000000', function (err, res) {
 
 });
 ```
