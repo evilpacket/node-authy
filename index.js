@@ -7,7 +7,7 @@ module.exports = function (api_key, api_url) {
 function Authy(apiKey, api_url) {
     this.apiKey = apiKey;
     this.apiURL = api_url || "https://api.authy.com";
-};
+}
 
 Authy.prototype.register_user = function (email, cellphone, country_code, callback) {
     var country = "USA";
@@ -28,12 +28,15 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
             api_key: this.apiKey
         }
     }, function (err, res, body) {
-        console.log(arguments);
         if (!err) {
             if (res.statusCode === 200) {
                 callback(null, toJSON(body));
+            } else if(res.statusCode === 401) {
+                throw new Error("invalid API key");
+            } else if(res.statusCode === 503) {
+                callback(body);
             } else {
-                callback(JSON.parse(toJSON(body)));
+                callback(err ? err : body);
             }
         } else {
             throw new Error(err);
