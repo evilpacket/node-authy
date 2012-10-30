@@ -28,6 +28,7 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
             api_key: this.apiKey
         }
     }, function (err, res, body) {
+        console.log(arguments);
         if (!err) {
             if (res.statusCode === 200) {
                 callback(null, toJSON(body));
@@ -57,9 +58,9 @@ Authy.prototype.verify = function (id, token, force, callback) {
     }, function (err, res, body) {
         if (!err) {
             if (res.statusCode === 200) {
-                cb(null, toJSON(body));
+                callback(null, toJSON(body));
             } else {
-                cb(toJSON(body));
+                callback(toJSON(body));
             }
         } else {
             throw new Error(err);
@@ -67,7 +68,7 @@ Authy.prototype.verify = function (id, token, force, callback) {
     });
 };
 
-Authy.prototype.request_sms = function (id, force, cb) {
+Authy.prototype.request_sms = function (id, force, callback) {
     var qs = {
         api_key: this.apikey
     };
@@ -84,9 +85,9 @@ Authy.prototype.request_sms = function (id, force, cb) {
     }, function (err, res, body) {
         if (!err) {
             if (res.statusCode === 200) {
-                cb(null, toJSON(body));
+                callback(null, toJSON(body));
             } else {
-                cb(toJSON(body));
+                callback(toJSON(body));
             }
         } else {
             throw new Error(err);
