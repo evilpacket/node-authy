@@ -42,7 +42,7 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
 
 Authy.prototype.verify = function (id, token, force, callback) {
     var qs = {
-        api_key: apikey
+        api_key: this.apiKey
     };
 
     if (arguments.length > 3) {
@@ -69,7 +69,7 @@ Authy.prototype.verify = function (id, token, force, callback) {
 
 Authy.prototype.request_sms = function (id, force, cb) {
     var qs = {
-        api_key: apikey
+        api_key: this.apikey
     };
 
     if (arguments.length > 2) {
