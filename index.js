@@ -1,40 +1,38 @@
 var request = require('request');
 
 module.exports = function (api_key, api_url) {
-    apiurl = api_url || 'https://api.authy.com';
-    apikey = module.exports.apikey = api_key;
-
-    return module.exports;
+    return new Authy(api_key, api_url);
 };
 
-module.exports.register_user = function (email, cellphone, country_code, cb) {
-    var url = apiurl + "/protected/json/users/new"; 
-    var qs = {api_key: apikey};
-  
-    // Default to USA if no country_code is provided 
-    var country = 'USA';  
+function Authy(apiKey, api_url) {
+    this.apiKey = apiKey;
+    this.apiURL = api_url || "https://api.authy.com";
+};
+
+Authy.prototype.register_user = function (email, cellphone, country_code, callback) {
+    var country = "USA";
     if (arguments.length > 3) {
-       country = country_code; 
+        country = country_code;
     } else {
-        cb = country_code;
+        callback = country_code;
     }
 
-    var form = {
-        "user[email]": email,
-        "user[cellphone]": cellphone,
-        "user[country_code]": country 
-    };
-
     request.post({
-        url: url,
-        form: form,
-        qs: qs
+        url: this.apiURL + "/protected/json/users/new",
+        form: {
+            "user[email]": email,
+            "user[cellphone]": cellphone,
+            "user[country_code]": country
+        },
+        qs: {
+            api_key: this.apiKey
+        }
     }, function (err, res, body) {
         if (!err) {
             if (res.statusCode === 200) {
-                cb(null, toJSON(body));
+                callback(null, toJSON(body));
             } else {
-                cb(JSON.parse(toJSON(body)));
+                callback(JSON.parse(toJSON(body)));
             }
         } else {
             throw new Error(err);
@@ -42,18 +40,19 @@ module.exports.register_user = function (email, cellphone, country_code, cb) {
     });
 };
 
-module.exports.verify = function (id, token, force, cb) {
-    var url = apiurl + "/protected/json/verify/" + token + "/" + id;
+Authy.prototype.verify = function (id, token, force, callback) {
+    var qs = {
+        api_key: apikey
+    };
 
-    var qs = {api_key: apikey};
     if (arguments.length > 3) {
         qs.force = force; 
     } else {
-        cb = force;
+        callback = force;
     }
 
     request.get({
-        url: url,
+        url: this.apiURL + "/protected/json/verify/" + token + "/" + id,
         qs: qs
     }, function (err, res, body) {
         if (!err) {
@@ -68,10 +67,11 @@ module.exports.verify = function (id, token, force, cb) {
     });
 };
 
-module.exports.request_sms = function (id, force, cb) {
-    var url = apiurl + "/protected/json/sms/" + id;
+Authy.prototype.request_sms = function (id, force, cb) {
+    var qs = {
+        api_key: apikey
+    };
 
-    var qs = {api_key: apikey};
     if (arguments.length > 2) {
         qs.force = force;
     } else {
@@ -79,7 +79,7 @@ module.exports.request_sms = function (id, force, cb) {
     }
 
     request.get({
-        url: url,
+        url: this.apiURL + "/protected/json/sms/" + id,
         qs: qs
     }, function (err, res, body) {
         if (!err) {
