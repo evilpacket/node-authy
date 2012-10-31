@@ -10,7 +10,7 @@ function Authy(apiKey, api_url) {
 }
 
 Authy.prototype.register_user = function (email, cellphone, country_code, callback) {
-    var country = "USA";
+    var country = "1";
     if (arguments.length > 3) {
         country = country_code;
     } else {
@@ -29,14 +29,10 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
         }
     }, function (err, res, body) {
         if (!err) {
-            if (res.statusCode === 200) {
-                callback(null, toJSON(body));
-            } else if(res.statusCode === 401) {
-                throw new Error("invalid API key");
-            } else if(res.statusCode === 503) {
-                callback(body);
+            if(res.statusCode === 200) {
+                callback(null, JSON.parse(body));
             } else {
-                callback(err ? err : body);
+                callback(body);
             }
         } else {
             throw new Error(err);
@@ -73,13 +69,13 @@ Authy.prototype.verify = function (id, token, force, callback) {
 
 Authy.prototype.request_sms = function (id, force, callback) {
     var qs = {
-        api_key: this.apikey
+        api_key: this.apiKey
     };
 
     if (arguments.length > 2) {
         qs.force = force;
     } else {
-        cb = force;
+        callback = force;
     }
 
     request.get({
@@ -90,7 +86,7 @@ Authy.prototype.request_sms = function (id, force, callback) {
             if (res.statusCode === 200) {
                 callback(null, toJSON(body));
             } else {
-                callback(toJSON(body));
+                callback(body);
             }
         } else {
             throw new Error(err);
