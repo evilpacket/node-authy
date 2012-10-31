@@ -63,3 +63,8 @@ authy.request_sms('1337', function (err, res) {
 });
 ```
 
+
+Additional Contributors
+-----------------------
+[Daniel Barnes](https://github.com/DanielBarnes)
+
