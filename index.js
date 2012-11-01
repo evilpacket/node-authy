@@ -40,6 +40,25 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
     });
 };
 
+Authy.prototype.delete_user = function (id, callback) {
+    request.post({
+        url: this.apiURL + "/protected/json/users/delete/" + id,
+        qs: {
+            api_key: this.apiKey
+        }
+    }, function (err, res, body) {
+        if (!err) {
+            if(res.statusCode === 200) {
+                callback(null, body);
+            } else {
+                callback(body);
+            }
+        } else {
+            throw new Error(err);
+        }
+    });
+};
+
 Authy.prototype.verify = function (id, token, force, callback) {
     var qs = {
         api_key: this.apiKey
