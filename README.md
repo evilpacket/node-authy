@@ -63,6 +63,16 @@ authy.request_sms('1337', function (err, res) {
 });
 ```
 
+Delete Registered User
+----------------------
+
+delete_user(id, callback);
+
+```javascript
+authy.delete_user('1337', function (err, res) {
+
+});
+```
 
 Additional Contributors
 -----------------------
