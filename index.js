@@ -26,7 +26,9 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
         },
         qs: {
             api_key: this.apiKey
-        }
+        },
+        jar: false,
+        strictSSL: true
     }, function (err, res, body) {
         if (!err) {
             if(res.statusCode === 200) {
@@ -45,7 +47,9 @@ Authy.prototype.delete_user = function (id, callback) {
         url: this.apiURL + "/protected/json/users/delete/" + id,
         qs: {
             api_key: this.apiKey
-        }
+        },
+        jar: false,
+        strictSSL: true
     }, function (err, res, body) {
         if (!err) {
             if(res.statusCode === 200) {
@@ -72,7 +76,9 @@ Authy.prototype.verify = function (id, token, force, callback) {
 
     request.get({
         url: this.apiURL + "/protected/json/verify/" + token + "/" + id,
-        qs: qs
+        qs: qs,
+        jar: false,
+        strictSSL: true
     }, function (err, res, body) {
         if (!err) {
             if (res.statusCode === 200) {
@@ -99,7 +105,9 @@ Authy.prototype.request_sms = function (id, force, callback) {
 
     request.get({
         url: this.apiURL + "/protected/json/sms/" + id,
-        qs: qs
+        qs: qs,
+        jar: false,
+        strictSSL: true
     }, function (err, res, body) {
         if (!err) {
             if (res.statusCode === 200) {
