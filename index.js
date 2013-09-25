@@ -121,7 +121,7 @@ Authy.prototype.request_sms = function (id, force, callback) {
     });
 };
 
-// Utility functions. Should live somebody else probably.
+// Utility functions. Should live somewhere else probably.
 function isJSON(data) {
     if (typeof data === 'object') return true;
     try {
