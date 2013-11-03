@@ -1,5 +1,4 @@
-node-authy
-==========
+# node-authy [![Dependency Status](https://david-dm.org/evilpacket/node-authy.png)](https://david-dm.org/evilpacket/node-authy)
 
 [Authy](https://authy.com/) API Client for node.js
 
