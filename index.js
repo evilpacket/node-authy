@@ -121,6 +121,35 @@ Authy.prototype.request_sms = function (id, force, callback) {
     });
 };
 
+Authy.prototype.request_call = function (id, force, callback) {
+    var qs = {
+        api_key: this.apiKey
+    };
+
+    if (arguments.length > 2) {
+        qs.force = force;
+    } else {
+        callback = force;
+    }
+
+    request.get({
+        url: this.apiURL + "/protected/json/call/" + id,
+        qs: qs,
+        jar: false,
+        strictSSL: true
+    }, function (err, res, body) {
+        if (!err) {
+            if (res.statusCode === 200) {
+                callback(null, toJSON(body));
+            } else {
+                callback(body);
+            }
+        } else {
+            throw new Error(err);
+        }
+    });
+};
+
 // Utility functions. Should live somewhere else probably.
 function isJSON(data) {
     if (typeof data === 'object') return true;
