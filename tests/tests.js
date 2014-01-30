@@ -61,3 +61,20 @@ exports['Request SMS - Force'] = function (test) {
     });
 };
 
+/*
+ *  Request Call Tests
+ */
+exports['Request Call'] = function (test) {
+    authy.request_call(test_user.id, function (err, res) {
+        test.ok(res);
+        test.done();
+    });
+};
+
+
+exports['Request Call - Force'] = function (test) {
+    authy.request_call(test_user.id, true, function (err, res) {
+        test.ok(res);
+        test.done();
+    });
+};

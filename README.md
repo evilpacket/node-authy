@@ -62,6 +62,17 @@ authy.request_sms('1337', function (err, res) {
 });
 ```
 
+Request Call (Email support@authy.com to enable this feature)
+-------------------------------------------------------------
+
+request_call(id, [force], callback);
+
+```javascript
+authy.request_call('1337', function (err, res) {
+
+});
+```
+
 Delete Registered User
 ----------------------
 
