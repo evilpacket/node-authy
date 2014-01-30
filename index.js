@@ -37,7 +37,7 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
                 callback(body);
             }
         } else {
-            throw new Error(err);
+            callback(err);
         }
     });
 };
@@ -58,7 +58,7 @@ Authy.prototype.delete_user = function (id, callback) {
                 callback(body);
             }
         } else {
-            throw new Error(err);
+            callback(err);
         }
     });
 };
@@ -87,7 +87,7 @@ Authy.prototype.verify = function (id, token, force, callback) {
                 callback(toJSON(body));
             }
         } else {
-            throw new Error(err);
+            callback(err);
         } 
     });
 };
@@ -116,7 +116,7 @@ Authy.prototype.request_sms = function (id, force, callback) {
                 callback(body);
             }
         } else {
-            throw new Error(err);
+            callback(err);
         }
     });
 };
@@ -145,7 +145,7 @@ Authy.prototype.request_call = function (id, force, callback) {
                 callback(body);
             }
         } else {
-            throw new Error(err);
+            callback(err);
         }
     });
 };
