@@ -27,12 +27,13 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
         qs: {
             api_key: this.apiKey
         },
+        json: true,
         jar: false,
         strictSSL: true
     }, function (err, res, body) {
         if (!err) {
             if(res.statusCode === 200) {
-                callback(null, JSON.parse(body));
+                callback(null, body);
             } else {
                 callback(body);
             }
@@ -48,6 +49,7 @@ Authy.prototype.delete_user = function (id, callback) {
         qs: {
             api_key: this.apiKey
         },
+        json: true,
         jar: false,
         strictSSL: true
     }, function (err, res, body) {
@@ -77,14 +79,15 @@ Authy.prototype.verify = function (id, token, force, callback) {
     request.get({
         url: this.apiURL + "/protected/json/verify/" + token + "/" + id,
         qs: qs,
+        json: true,
         jar: false,
         strictSSL: true
     }, function (err, res, body) {
         if (!err) {
             if (res.statusCode === 200) {
-                callback(null, toJSON(body));
+                callback(null, body);
             } else {
-                callback(toJSON(body));
+                callback(body);
             }
         } else {
             callback(err);
@@ -106,12 +109,13 @@ Authy.prototype.request_sms = function (id, force, callback) {
     request.get({
         url: this.apiURL + "/protected/json/sms/" + id,
         qs: qs,
+        json: true,
         jar: false,
         strictSSL: true
     }, function (err, res, body) {
         if (!err) {
             if (res.statusCode === 200) {
-                callback(null, toJSON(body));
+                callback(null, body);
             } else {
                 callback(body);
             }
@@ -135,12 +139,13 @@ Authy.prototype.request_call = function (id, force, callback) {
     request.get({
         url: this.apiURL + "/protected/json/call/" + id,
         qs: qs,
+        json: true,
         jar: false,
         strictSSL: true
     }, function (err, res, body) {
         if (!err) {
             if (res.statusCode === 200) {
-                callback(null, toJSON(body));
+                callback(null, body);
             } else {
                 callback(body);
             }
@@ -149,24 +154,3 @@ Authy.prototype.request_call = function (id, force, callback) {
         }
     });
 };
-
-// Utility functions. Should live somewhere else probably.
-function isJSON(data) {
-    if (typeof data === 'object') return true;
-    try {
-        data = JSON.parse(data);
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-
-function toJSON(data) {
-    if (typeof data === 'object') return data;
-    try {
-        data = JSON.parse(data);
-        return data;
-    } catch (e) {
-        return data;
-    }
-}
