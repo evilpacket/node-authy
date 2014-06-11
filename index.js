@@ -32,9 +32,9 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
     }, function (err, res, body) {
         if (!err) {
             if(res.statusCode === 200) {
-                callback(null, JSON.parse(body));
+                callback(null, toJSON(body));
             } else {
-                callback(body);
+                callback(toJSON(body));
             }
         } else {
             callback(err);
@@ -53,9 +53,9 @@ Authy.prototype.delete_user = function (id, callback) {
     }, function (err, res, body) {
         if (!err) {
             if(res.statusCode === 200) {
-                callback(null, body);
+                callback(null, toJSON(body));
             } else {
-                callback(body);
+                callback(toJSON(body));
             }
         } else {
             callback(err);
@@ -113,7 +113,7 @@ Authy.prototype.request_sms = function (id, force, callback) {
             if (res.statusCode === 200) {
                 callback(null, toJSON(body));
             } else {
-                callback(body);
+                callback(toJSON(body));
             }
         } else {
             callback(err);
@@ -142,7 +142,7 @@ Authy.prototype.request_call = function (id, force, callback) {
             if (res.statusCode === 200) {
                 callback(null, toJSON(body));
             } else {
-                callback(body);
+                callback(toJSON(body));
             }
         } else {
             callback(err);
