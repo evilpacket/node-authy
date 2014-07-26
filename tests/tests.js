@@ -13,7 +13,7 @@ process.on('uncaughtException', function(err) {
 /*
  *  Register New User Tests
  */
-exports['Register New User - Without country code'] = function (test) {
+exports['Register New User - Without country code or SMS install link param'] = function (test) {
     authy.register_user(test_user.email, test_user.phone, function (err, res) {
         test.ok(res);
         test.equal(typeof(res), 'object', 'Response should be an object.');
@@ -23,8 +23,24 @@ exports['Register New User - Without country code'] = function (test) {
     });
 };
 
-exports['Register New User - With country code'] = function (test) {
+exports['Register New User - With country code but no SMS install link param'] = function (test) {
     authy.register_user(test_user.email, test_user.phone, test_user.country, function (err, res) {
+        test.ok(res);
+        test.equal(typeof(res), 'object', 'Response should be an object.');
+        test.done();
+    });
+};
+
+exports['Register New User - With country code and SMS install link param'] = function (test) {
+    authy.register_user(test_user.email, test_user.phone, test_user.country, false, function (err, res) {
+        test.ok(res);
+        test.equal(typeof(res), 'object', 'Response should be an object.');
+        test.done();
+    });
+};
+
+exports['Register New User - With SMS install link param but no country code'] = function (test) {
+    authy.register_user(test_user.email, test_user.phone, false, function (err, res) {
         test.ok(res);
         test.equal(typeof(res), 'object', 'Response should be an object.');
         test.done();
