@@ -9,11 +9,17 @@ function Authy(apiKey, api_url) {
     this.apiURL = api_url || "https://api.authy.com";
 }
 
-Authy.prototype.register_user = function (email, cellphone, country_code, callback) {
+Authy.prototype.register_user = function (email, cellphone, country_code, send_sms_install_link, callback) {
     var country = "1";
-    if (arguments.length > 3) {
+    var send_install_link = true;
+    if (arguments.length > 4) {
         country = country_code;
-    } else {
+        send_install_link = send_sms_install_link;
+    }
+    else if (arguments.length == 4) {
+        callback = send_sms_install_link;
+    }
+    else {
         callback = country_code;
     }
 
@@ -25,7 +31,8 @@ Authy.prototype.register_user = function (email, cellphone, country_code, callba
             "user[country_code]": country
         },
         qs: {
-            api_key: this.apiKey
+            api_key: this.apiKey,
+            send_install_link_via_sms: send_install_link
         },
         json: true,
         jar: false,
