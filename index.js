@@ -84,7 +84,7 @@ Authy.prototype.verify = function (id, token, force, callback) {
     };
 
     if (arguments.length > 3) {
-        qs.force = force; 
+        qs.force = force;
     } else {
         callback = force;
     }
@@ -104,7 +104,7 @@ Authy.prototype.verify = function (id, token, force, callback) {
             }
         } else {
             callback(err);
-        } 
+        }
     });
 };
 
@@ -166,4 +166,81 @@ Authy.prototype.request_call = function (id, force, callback) {
             callback(err);
         }
     });
+};
+
+Authy.prototype.phones = function() {
+    self = this;
+    return {
+        verification_start: function(options, callback) {
+            options = options || {}
+            request.post({
+                url: self.apiURL + "/protected/json/phones/verification/start",
+                form: options,
+                qs: {
+                    api_key: self.apiKey
+                },
+                json: true,
+                jar: false,
+                strictSSL: true
+            }, function (err, res, body) {
+                if (!err) {
+                    if(res.statusCode === 200) {
+                        callback(null, body);
+                    } else {
+                        callback(body);
+                    }
+                } else {
+                    callback(err);
+                }
+            });
+        },
+
+        verification_check: function(options, callback) {
+            options = options || {}
+            request.get({
+                url: self.apiURL + "/protected/json/phones/verification/check",
+                form: options,
+                qs: {
+                    api_key: self.apiKey
+                },
+                json: true,
+                jar: false,
+                strictSSL: true
+            }, function (err, res, body) {
+                if (!err) {
+                    if(res.statusCode === 200) {
+                        callback(null, body);
+                    } else {
+                        callback(body);
+                    }
+                } else {
+                    callback(err);
+                }
+            });
+        },
+
+        info: function(options, callback) {
+            options = options || {}
+            request.get({
+                url: self.apiURL + "/protected/json/phones/info",
+                form: options,
+                qs: {
+                    api_key: self.apiKey
+                },
+                json: true,
+                jar: false,
+                strictSSL: true
+            }, function (err, res, body) {
+                if (!err) {
+                    if(res.statusCode === 200) {
+                        callback(null, body);
+                    } else {
+                        callback(body);
+                    }
+                } else {
+                    callback(err);
+                }
+            });
+        }
+    };
 };

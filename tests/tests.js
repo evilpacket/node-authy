@@ -128,3 +128,44 @@ exports['Request Call - Force'] = function (test) {
         test.done();
     });
 };
+
+/*
+ *  Phone Info tests
+ */
+exports.phone_verification_starts = function (test) {
+    authy.phones().verification_start({
+            via: "sms",
+            country_code: "1",
+            phone_number: "111-111-1111"
+        },
+        function (err, res) {
+            test.ok(res);
+            test.done();
+        }
+    );
+};
+
+exports.phone_verification_check = function (test) {
+    authy.phones().verification_check({
+            country_code: "1",
+            phone_number: "111-111-1111",
+            verification_code: "0000"
+        },
+        function (err, res) {
+            test.ok(res);
+            test.done();
+        }
+    );
+};
+
+exports.phone_info = function (test) {
+    authy.phones().info({
+            country_code: "1",
+            phone_number: "7754615609"
+        },
+        function (err, res) {
+            test.ok(res);
+            test.done();
+        }
+    );
+};
