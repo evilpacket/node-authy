@@ -45,6 +45,10 @@ Authy.prototype.delete_user = function (id, callback) {
     this._request("post", "/protected/json/users/delete/" + id, {}, callback);
 };
 
+Authy.prototype.user_status = function (id, callback) {
+    this._request("get", "/protected/json/users/" + id + "/status", {}, callback);
+};
+
 Authy.prototype.verify = function (id, token, force, callback) {
     var qs = {};
 

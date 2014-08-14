@@ -130,42 +130,81 @@ exports['Request Call - Force'] = function (test) {
 };
 
 /*
+ *  Users tests
+ */
+exports.users = {
+    status: {
+        setUp: function(callback) {
+            authy.register_user(test_user.email, test_user.phone, function(err, res) {
+                test_user.id = res.user.id;
+                callback();
+            });
+        },
+
+        does_not_exists: function(test) {
+            authy.user_status("tony", function (err, res) {
+                test.ok(err, 'Should get error.');
+                test.equal(typeof(err), 'object', 'Error should be an object.');
+                test.equal(err.success, false, 'Success should be false.')
+                test.equal(err.message, "User not found.");
+                test.done();
+            });
+        },
+
+        exists: function(test) {
+            authy.user_status(test_user.id, function (err, res) {
+                test.ok(res);
+                test.equal(typeof(res), 'object', 'res should be an object.');
+                test.equal(res.success, true, 'Success should be true.')
+                test.equal(typeof(res.status), 'object');
+                test.done();
+            });
+        }
+    }
+};
+
+/*
  *  Phone Info tests
  */
-exports.phone_verification_starts = function (test) {
-    authy.phones().verification_start({
-            via: "sms",
-            country_code: "1",
-            phone_number: "111-111-1111"
-        },
-        function (err, res) {
-            test.ok(res);
-            test.done();
-        }
-    );
-};
+exports.phones = {
+    verification_starts: function (test) {
+        test.expect(1);
+        authy.phones().verification_start({
+                via: "sms",
+                country_code: "1",
+                phone_number: "111-111-1111"
+            },
+            function (err, res) {
+                test.ok(res);
+                test.done();
+            }
+        );
+    },
 
-exports.phone_verification_check = function (test) {
-    authy.phones().verification_check({
-            country_code: "1",
-            phone_number: "111-111-1111",
-            verification_code: "0000"
-        },
-        function (err, res) {
-            test.ok(res);
-            test.done();
-        }
-    );
-};
+    verification_check: function (test) {
+        test.expect(1);
+        authy.phones().verification_check({
+                country_code: "1",
+                phone_number: "111-111-1111",
+                verification_code: "0000"
+            },
+            function (err, res) {
+                test.ok(res);
+                test.done();
+            }
+        );
+    },
 
-exports.phone_info = function (test) {
-    authy.phones().info({
-            country_code: "1",
-            phone_number: "7754615609"
-        },
-        function (err, res) {
-            test.ok(res);
-            test.done();
-        }
-    );
-};
+    info: function (test) {
+        test.expect(1);
+        authy.phones().info({
+                country_code: "1",
+                phone_number: "7754615609"
+            },
+            function (err, res) {
+                test.ok(res);
+                test.done();
+            }
+        );
+    }
+}
