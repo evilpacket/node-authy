@@ -29,59 +29,24 @@ Authy.prototype.register_user = function (email, cellphone, country_code, send_s
         callback = country_code;
     }
 
-    request.post({
-        url: this.apiURL + "/protected/json/users/new",
-        form: {
+    this._request("post", "/protected/json/users/new", {
             "user[email]": email,
             "user[cellphone]": cellphone,
             "user[country_code]": country
         },
-        qs: {
-            api_key: this.apiKey,
-            send_install_link_via_sms: send_install_link
-        },
-        json: true,
-        jar: false,
-        strictSSL: true
-    }, function (err, res, body) {
-        if (!err) {
-            if(res.statusCode === 200) {
-                callback(null, body);
-            } else {
-                callback(body);
-            }
-        } else {
-            callback(err);
+        callback,
+        {
+          send_install_link_via_sms: send_install_link
         }
-    });
+    );
 };
 
 Authy.prototype.delete_user = function (id, callback) {
-    request.post({
-        url: this.apiURL + "/protected/json/users/delete/" + id,
-        qs: {
-            api_key: this.apiKey
-        },
-        json: true,
-        jar: false,
-        strictSSL: true
-    }, function (err, res, body) {
-        if (!err) {
-            if(res.statusCode === 200) {
-                callback(null, body);
-            } else {
-                callback(body);
-            }
-        } else {
-            callback(err);
-        }
-    });
+    this._request("post", "/protected/json/users/delete/" + id, {}, callback);
 };
 
 Authy.prototype.verify = function (id, token, force, callback) {
-    var qs = {
-        api_key: this.apiKey
-    };
+    var qs = {};
 
     if (arguments.length > 3) {
         qs.force = force;
@@ -89,29 +54,11 @@ Authy.prototype.verify = function (id, token, force, callback) {
         callback = force;
     }
 
-    request.get({
-        url: this.apiURL + "/protected/json/verify/" + token + "/" + id,
-        qs: qs,
-        json: true,
-        jar: false,
-        strictSSL: true
-    }, function (err, res, body) {
-        if (!err) {
-            if (res.statusCode === 200) {
-                callback(null, body);
-            } else {
-                callback(body);
-            }
-        } else {
-            callback(err);
-        }
-    });
+    this._request("get", "/protected/json/verify/" + token + "/" + id, {}, callback, qs);
 };
 
 Authy.prototype.request_sms = function (id, force, callback) {
-    var qs = {
-        api_key: this.apiKey
-    };
+    var qs = {};
 
     if (arguments.length > 2) {
         qs.force = force;
@@ -119,29 +66,11 @@ Authy.prototype.request_sms = function (id, force, callback) {
         callback = force;
     }
 
-    request.get({
-        url: this.apiURL + "/protected/json/sms/" + id,
-        qs: qs,
-        json: true,
-        jar: false,
-        strictSSL: true
-    }, function (err, res, body) {
-        if (!err) {
-            if (res.statusCode === 200) {
-                callback(null, body);
-            } else {
-                callback(body);
-            }
-        } else {
-            callback(err);
-        }
-    });
+    this._request("get", "/protected/json/sms/" + id, {}, callback, qs);
 };
 
 Authy.prototype.request_call = function (id, force, callback) {
-    var qs = {
-        api_key: this.apiKey
-    };
+    var qs = {};
 
     if (arguments.length > 2) {
         qs.force = force;
@@ -149,23 +78,7 @@ Authy.prototype.request_call = function (id, force, callback) {
         callback = force;
     }
 
-    request.get({
-        url: this.apiURL + "/protected/json/call/" + id,
-        qs: qs,
-        json: true,
-        jar: false,
-        strictSSL: true
-    }, function (err, res, body) {
-        if (!err) {
-            if (res.statusCode === 200) {
-                callback(null, body);
-            } else {
-                callback(body);
-            }
-        } else {
-            callback(err);
-        }
-    });
+    this._request("get", "/protected/json/call/" + id, {}, callback, qs);
 };
 
 Authy.prototype.phones = function() {
@@ -173,74 +86,54 @@ Authy.prototype.phones = function() {
     return {
         verification_start: function(options, callback) {
             options = options || {}
-            request.post({
-                url: self.apiURL + "/protected/json/phones/verification/start",
-                form: options,
-                qs: {
-                    api_key: self.apiKey
-                },
-                json: true,
-                jar: false,
-                strictSSL: true
-            }, function (err, res, body) {
-                if (!err) {
-                    if(res.statusCode === 200) {
-                        callback(null, body);
-                    } else {
-                        callback(body);
-                    }
-                } else {
-                    callback(err);
-                }
-            });
+            self._request("post", "/protected/json/phones/verification/start", options, callback);
         },
 
         verification_check: function(options, callback) {
             options = options || {}
-            request.get({
-                url: self.apiURL + "/protected/json/phones/verification/check",
-                form: options,
-                qs: {
-                    api_key: self.apiKey
-                },
-                json: true,
-                jar: false,
-                strictSSL: true
-            }, function (err, res, body) {
-                if (!err) {
-                    if(res.statusCode === 200) {
-                        callback(null, body);
-                    } else {
-                        callback(body);
-                    }
-                } else {
-                    callback(err);
-                }
-            });
+            self._request("get", "/protected/json/phones/verification/check", options, callback);
         },
 
         info: function(options, callback) {
             options = options || {}
-            request.get({
-                url: self.apiURL + "/protected/json/phones/info",
-                form: options,
-                qs: {
-                    api_key: self.apiKey
-                },
-                json: true,
-                jar: false,
-                strictSSL: true
-            }, function (err, res, body) {
-                if (!err) {
-                    if(res.statusCode === 200) {
-                        callback(null, body);
-                    } else {
-                        callback(body);
-                    }
-                } else {
-                    callback(err);
-                }
-            });
+            self._request("get", "/protected/json/phones/info", options, callback);
         }
     };
+};
+
+Authy.prototype._request = function(type, path, params, callback, qs) {
+    qs = qs || {}
+    qs['api_key'] = this.apiKey;
+
+    options = {
+        url: this.apiURL + path,
+        form: params,
+        qs: qs,
+        json: true,
+        jar: false,
+        strictSSL: true
+    }
+
+    var callback_check = function (err, res, body) {
+        if (!err) {
+            if(res.statusCode === 200) {
+                callback(null, body);
+            } else {
+                callback(body);
+            }
+        } else {
+            callback(err);
+        }
+    };
+
+    switch(type) {
+
+        case "post":
+            request.post(options, callback_check);
+            break;
+
+        case "get":
+            request.get(options, callback_check);
+            break;
+    }
 };
