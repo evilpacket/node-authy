@@ -93,7 +93,7 @@ Get Registered User Status
 user_status(id, callback);
 
 ```javascript
-authy.user_satus('1337', function (err, res) {
+authy.user_status('1337', function (err, res) {
 
 });
 ```
@@ -101,14 +101,10 @@ authy.user_satus('1337', function (err, res) {
 Start Phone Verification
 ------------------------
 
-phones().verification_start(options, callback);
+phones().verification_start(phone_number, country_code, via, callback);
 
 ```javascript
-authy.phones().verification_start({
-        via: "sms",
-        country_code: "1",
-        phone_number: "111-111-1111"
-    }, function (err, res) {
+authy.phones().verification_start('111-111-1111', '1', 'sms', function(err, res) {
 
 });
 ```
@@ -116,13 +112,10 @@ authy.phones().verification_start({
 Check Phone Verification
 ------------------------
 
-phones().verification_check(options, callback);
+phones().verification_check(phone_number, country_code, verification_code, callback);
 
 ```javascript
-authy.phones().verification_check({
-        country_code: "1",
-        phone_number: "111-111-1111"
-    }, function (err, res) {
+authy.phones().verification_check('111-111-1111', '1', '0000', function (err, res) {
 
 });
 ```
@@ -130,13 +123,10 @@ authy.phones().verification_check({
 Get Phone Info
 ------------------------
 
-phones().info(options, callback);
+phones().info(phone_number, country_code, callback);
 
 ```javascript
-authy.phones().info({
-        country_code: "1",
-        phone_number: "111-111-1111"
-    }, function (err, res) {
+authy.phones().info('111-111-1111-, '1', function (err, res) {
 
 });
 ```

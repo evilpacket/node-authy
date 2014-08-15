@@ -88,18 +88,33 @@ Authy.prototype.request_call = function (id, force, callback) {
 Authy.prototype.phones = function() {
     self = this;
     return {
-        verification_start: function(options, callback) {
-            options = options || {}
+        verification_start: function(phone_number, country_code, via, callback) {
+            if(arguments.length == 3) {
+                callback = via;
+                via = "sms";
+            }
+            options = {
+                phone_number: phone_number,
+                country_code: country_code,
+                via: via
+            };
             self._request("post", "/protected/json/phones/verification/start", options, callback);
         },
 
-        verification_check: function(options, callback) {
-            options = options || {}
+        verification_check: function(phone_number, country_code, verification_code, callback) {
+            options = {
+                phone_number: phone_number,
+                country_code: country_code,
+                verification_code: verification_code
+            };
             self._request("get", "/protected/json/phones/verification/check", options, callback);
         },
 
-        info: function(options, callback) {
-            options = options || {}
+        info: function(phone_number, country_code, callback) {
+            options = {
+                phone_number: phone_number,
+                country_code: country_code
+            };
             self._request("get", "/protected/json/phones/info", options, callback);
         }
     };

@@ -167,27 +167,31 @@ exports.users = {
  *  Phone Info tests
  */
 exports.phones = {
-    verification_starts: function (test) {
-        test.expect(1);
-        authy.phones().verification_start({
-                via: "sms",
-                country_code: "1",
-                phone_number: "111-111-1111"
-            },
-            function (err, res) {
-                test.ok(res);
-                test.done();
-            }
-        );
+    verification_starts: {
+        without_via: function (test) {
+            test.expect(1);
+            authy.phones().verification_start("111-111-1111", "1",
+                function (err, res) {
+                    test.ok(res);
+                    test.done();
+                }
+            );
+        },
+
+        with_via: function (test) {
+            test.expect(1);
+            authy.phones().verification_start("111-111-1111", "1", "sms",
+                function (err, res) {
+                    test.ok(res);
+                    test.done();
+                }
+            );
+        },
     },
 
     verification_check: function (test) {
         test.expect(1);
-        authy.phones().verification_check({
-                country_code: "1",
-                phone_number: "111-111-1111",
-                verification_code: "0000"
-            },
+        authy.phones().verification_check("111-111-1111", "1", "0000",
             function (err, res) {
                 test.ok(res);
                 test.done();
@@ -197,10 +201,7 @@ exports.phones = {
 
     info: function (test) {
         test.expect(1);
-        authy.phones().info({
-                country_code: "1",
-                phone_number: "7754615609"
-            },
+        authy.phones().info("7754615609", "1",
             function (err, res) {
                 test.ok(res);
                 test.done();
