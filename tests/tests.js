@@ -128,3 +128,84 @@ exports['Request Call - Force'] = function (test) {
         test.done();
     });
 };
+
+/*
+ *  Users tests
+ */
+exports.users = {
+    status: {
+        setUp: function(callback) {
+            authy.register_user(test_user.email, test_user.phone, function(err, res) {
+                test_user.id = res.user.id;
+                callback();
+            });
+        },
+
+        does_not_exists: function(test) {
+            authy.user_status("tony", function (err, res) {
+                test.ok(err, 'Should get error.');
+                test.equal(typeof(err), 'object', 'Error should be an object.');
+                test.equal(err.success, false, 'Success should be false.')
+                test.equal(err.message, "User not found.");
+                test.done();
+            });
+        },
+
+        exists: function(test) {
+            authy.user_status(test_user.id, function (err, res) {
+                test.ok(res);
+                test.equal(typeof(res), 'object', 'res should be an object.');
+                test.equal(res.success, true, 'Success should be true.')
+                test.equal(typeof(res.status), 'object');
+                test.done();
+            });
+        }
+    }
+};
+
+/*
+ *  Phone Info tests
+ */
+exports.phones = {
+    verification_starts: {
+        without_via: function (test) {
+            test.expect(1);
+            authy.phones().verification_start("111-111-1111", "1",
+                function (err, res) {
+                    test.ok(res);
+                    test.done();
+                }
+            );
+        },
+
+        with_via: function (test) {
+            test.expect(1);
+            authy.phones().verification_start("111-111-1111", "1", "sms",
+                function (err, res) {
+                    test.ok(res);
+                    test.done();
+                }
+            );
+        },
+    },
+
+    verification_check: function (test) {
+        test.expect(1);
+        authy.phones().verification_check("111-111-1111", "1", "0000",
+            function (err, res) {
+                test.ok(res);
+                test.done();
+            }
+        );
+    },
+
+    info: function (test) {
+        test.expect(1);
+        authy.phones().info("7754615609", "1",
+            function (err, res) {
+                test.ok(res);
+                test.done();
+            }
+        );
+    }
+}

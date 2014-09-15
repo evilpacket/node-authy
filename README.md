@@ -87,6 +87,50 @@ authy.delete_user('1337', function (err, res) {
 });
 ```
 
+Get Registered User Status
+--------------------------
+
+user_status(id, callback);
+
+```javascript
+authy.user_status('1337', function (err, res) {
+
+});
+```
+
+Start Phone Verification
+------------------------
+
+phones().verification_start(phone_number, country_code, via, callback);
+
+```javascript
+authy.phones().verification_start('111-111-1111', '1', 'sms', function(err, res) {
+
+});
+```
+
+Check Phone Verification
+------------------------
+
+phones().verification_check(phone_number, country_code, verification_code, callback);
+
+```javascript
+authy.phones().verification_check('111-111-1111', '1', '0000', function (err, res) {
+
+});
+```
+
+Get Phone Info
+------------------------
+
+phones().info(phone_number, country_code, callback);
+
+```javascript
+authy.phones().info('111-111-1111-, '1', function (err, res) {
+
+});
+```
+
 Additional Contributors
 -----------------------
 [Daniel Barnes](https://github.com/DanielBarnes)
