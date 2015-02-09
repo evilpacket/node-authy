@@ -1,7 +1,7 @@
 var apikey = "0cd08abec2e9b9641e40e9470a7fc336";
 var authy = require('../index')(apikey,'http://sandbox-api.authy.com');
 
-var test_user = {email: 'baldwin@andyet.net', phone: '825-589-8570', country: '5'};
+var test_user = {email: 'baldwin@andyet.net', phone: '825-589-8570', country: '57'};
 
 /*
  * Nodeunit swallows uncaught exceptions--get them back!

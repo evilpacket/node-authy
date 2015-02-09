@@ -1,4 +1,5 @@
 var request = require('request');
+var querystring = require("querystring");
 
 module.exports = function (api_key, api_url) {
     return new Authy(api_key, api_url);
@@ -42,11 +43,11 @@ Authy.prototype.register_user = function (email, cellphone, country_code, send_s
 };
 
 Authy.prototype.delete_user = function (id, callback) {
-    this._request("post", "/protected/json/users/delete/" + id, {}, callback);
+    this._request("post", "/protected/json/users/delete/" + querystring.escape(id), {}, callback);
 };
 
 Authy.prototype.user_status = function (id, callback) {
-    this._request("get", "/protected/json/users/" + id + "/status", {}, callback);
+    this._request("get", "/protected/json/users/" + querystring.escape(id) + "/status", {}, callback);
 };
 
 Authy.prototype.verify = function (id, token, force, callback) {
@@ -58,7 +59,7 @@ Authy.prototype.verify = function (id, token, force, callback) {
         callback = force;
     }
 
-    this._request("get", "/protected/json/verify/" + token + "/" + id, {}, callback, qs);
+    this._request("get", "/protected/json/verify/" + querystring.escape(token) + "/" + querystring.escape(id), {}, callback, qs);
 };
 
 Authy.prototype.request_sms = function (id, force, callback) {
@@ -70,7 +71,7 @@ Authy.prototype.request_sms = function (id, force, callback) {
         callback = force;
     }
 
-    this._request("get", "/protected/json/sms/" + id, {}, callback, qs);
+    this._request("get", "/protected/json/sms/" + querystring.escape(id), {}, callback, qs);
 };
 
 Authy.prototype.request_call = function (id, force, callback) {
@@ -82,7 +83,7 @@ Authy.prototype.request_call = function (id, force, callback) {
         callback = force;
     }
 
-    this._request("get", "/protected/json/call/" + id, {}, callback, qs);
+    this._request("get", "/protected/json/call/" + querystring.escape(id), {}, callback, qs);
 };
 
 Authy.prototype.phones = function() {
