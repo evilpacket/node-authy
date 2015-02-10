@@ -60,7 +60,16 @@ Authy.prototype.verify = function (id, token, force, callback) {
         callback = force;
     }
 
-    this._request("get", "/protected/json/verify/" + querystring.escape(token) + "/" + querystring.escape(id), {}, callback, qs);
+    check_body_callback = function(err, res) {
+        if(!err && res.token != "is valid") {
+            err = {
+                message: "Unknown API response."
+            }
+            res = null
+        }
+        callback(err, res)
+    }
+    this._request("get", "/protected/json/verify/" + querystring.escape(token) + "/" + querystring.escape(id), {}, check_body_callback, qs);
 };
 
 Authy.prototype.request_sms = function (id, force, callback) {

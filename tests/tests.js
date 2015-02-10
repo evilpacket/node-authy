@@ -93,6 +93,14 @@ exports['Verify Token - Force'] = function (test) {
     });
 };
 
+exports['Verify Token - Invalid'] = function (test) {
+    authy.verify(test_user.id, 'invalid', true, function (err, res) {
+        test.ok(!res);
+        test.equal(typeof(res), 'undefined', 'Response should be undefined.');
+        test.done();
+    });
+};
+
 /*
  *  Request SMS Tests
  */
