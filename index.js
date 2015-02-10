@@ -1,5 +1,6 @@
 var request = require('request');
 var querystring = require("querystring");
+var VERSION = "1.1"
 
 module.exports = function (api_key, api_url) {
     return new Authy(api_key, api_url);
@@ -125,9 +126,15 @@ Authy.prototype._request = function(type, path, params, callback, qs) {
     qs = qs || {}
     qs['api_key'] = this.apiKey;
 
+    user_agent = "AuthyNode/"+VERSION+" (node "+process.version+")"
+    headers = {
+        "User-Agent": user_agent
+    }
+
     options = {
         url: this.apiURL + path,
         form: params,
+        headers: headers,
         qs: qs,
         json: true,
         jar: false,
