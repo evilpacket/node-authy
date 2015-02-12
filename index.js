@@ -60,6 +60,8 @@ Authy.prototype.verify = function (id, token, force, callback) {
         callback = force;
     }
 
+    cleanToken = String(token).replace(/\D/g, "").substring(0, 16)
+    // Overwrite the default body to check the response.
     check_body_callback = function(err, res) {
         if(!err && res.token != "is valid") {
             err = {
@@ -69,7 +71,7 @@ Authy.prototype.verify = function (id, token, force, callback) {
         }
         callback(err, res)
     }
-    this._request("get", "/protected/json/verify/" + querystring.escape(token) + "/" + querystring.escape(id), {}, check_body_callback, qs);
+    this._request("get", "/protected/json/verify/" + querystring.escape(cleanToken) + "/" + querystring.escape(id), {}, check_body_callback, qs);
 };
 
 Authy.prototype.request_sms = function (id, force, callback) {

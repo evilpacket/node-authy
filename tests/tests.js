@@ -101,6 +101,14 @@ exports['Verify Token - Invalid'] = function (test) {
     });
 };
 
+exports['Verify Token - Dirty'] = function (test) {
+    authy.verify(test_user.id, '0a0$0%0b0*@!#00', true, function (err, res) {
+        test.ok(res);
+        test.equal(typeof(res), 'object', 'Response should be an object.');
+        test.done();
+    });
+};
+
 /*
  *  Request SMS Tests
  */
