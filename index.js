@@ -1,4 +1,6 @@
 var request = require('request');
+var querystring = require("querystring");
+var VERSION = "1.1"
 
 module.exports = function (api_key, api_url) {
     return new Authy(api_key, api_url);
@@ -42,11 +44,11 @@ Authy.prototype.register_user = function (email, cellphone, country_code, send_s
 };
 
 Authy.prototype.delete_user = function (id, callback) {
-    this._request("post", "/protected/json/users/delete/" + id, {}, callback);
+    this._request("post", "/protected/json/users/delete/" + querystring.escape(id), {}, callback);
 };
 
 Authy.prototype.user_status = function (id, callback) {
-    this._request("get", "/protected/json/users/" + id + "/status", {}, callback);
+    this._request("get", "/protected/json/users/" + querystring.escape(id) + "/status", {}, callback);
 };
 
 Authy.prototype.verify = function (id, token, force, callback) {
@@ -58,7 +60,18 @@ Authy.prototype.verify = function (id, token, force, callback) {
         callback = force;
     }
 
-    this._request("get", "/protected/json/verify/" + token + "/" + id, {}, callback, qs);
+    cleanToken = String(token).replace(/\D/g, "").substring(0, 16)
+    // Overwrite the default body to check the response.
+    check_body_callback = function(err, res) {
+        if(!err && res.token != "is valid") {
+            err = {
+                message: "Unknown API response."
+            }
+            res = null
+        }
+        callback(err, res)
+    }
+    this._request("get", "/protected/json/verify/" + querystring.escape(cleanToken) + "/" + querystring.escape(id), {}, check_body_callback, qs);
 };
 
 Authy.prototype.request_sms = function (id, force, callback) {
@@ -70,7 +83,7 @@ Authy.prototype.request_sms = function (id, force, callback) {
         callback = force;
     }
 
-    this._request("get", "/protected/json/sms/" + id, {}, callback, qs);
+    this._request("get", "/protected/json/sms/" + querystring.escape(id), {}, callback, qs);
 };
 
 Authy.prototype.request_call = function (id, force, callback) {
@@ -82,7 +95,7 @@ Authy.prototype.request_call = function (id, force, callback) {
         callback = force;
     }
 
-    this._request("get", "/protected/json/call/" + id, {}, callback, qs);
+    this._request("get", "/protected/json/call/" + querystring.escape(id), {}, callback, qs);
 };
 
 Authy.prototype.phones = function() {
@@ -124,9 +137,15 @@ Authy.prototype._request = function(type, path, params, callback, qs) {
     qs = qs || {}
     qs['api_key'] = this.apiKey;
 
+    user_agent = "AuthyNode/"+VERSION+" (node "+process.version+")"
+    headers = {
+        "User-Agent": user_agent
+    }
+
     options = {
         url: this.apiURL + path,
         form: params,
+        headers: headers,
         qs: qs,
         json: true,
         jar: false,

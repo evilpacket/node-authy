@@ -1,7 +1,7 @@
 var apikey = "0cd08abec2e9b9641e40e9470a7fc336";
 var authy = require('../index')(apikey,'http://sandbox-api.authy.com');
 
-var test_user = {email: 'baldwin@andyet.net', phone: '825-589-8570', country: '5'};
+var test_user = {email: 'baldwin@andyet.net', phone: '825-589-8570', country: '57'};
 
 /*
  * Nodeunit swallows uncaught exceptions--get them back!
@@ -87,6 +87,22 @@ exports['Verify Token'] = function (test) {
 
 exports['Verify Token - Force'] = function (test) {
     authy.verify(test_user.id, '0000000', true, function (err, res) {
+        test.ok(res);
+        test.equal(typeof(res), 'object', 'Response should be an object.');
+        test.done();
+    });
+};
+
+exports['Verify Token - Invalid'] = function (test) {
+    authy.verify(test_user.id, 'invalid', true, function (err, res) {
+        test.ok(!res);
+        test.equal(typeof(res), 'undefined', 'Response should be undefined.');
+        test.done();
+    });
+};
+
+exports['Verify Token - Dirty'] = function (test) {
+    authy.verify(test_user.id, '0a0$0%0b0*@!#00', true, function (err, res) {
         test.ok(res);
         test.equal(typeof(res), 'object', 'Response should be an object.');
         test.done();
