@@ -61,6 +61,12 @@ Authy.prototype.verify = function (id, token, force, callback) {
     }
 
     cleanToken = String(token).replace(/\D/g, "").substring(0, 16)
+
+    if (cleanToken === '' || cleanToken == null) {
+        callback(new Error("argument 'token' cannot be empty, null, or undefined"));
+        return;
+    }
+
     // Overwrite the default body to check the response.
     check_body_callback = function(err, res) {
         if(!err && res.token != "is valid") {

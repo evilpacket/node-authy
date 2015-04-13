@@ -109,6 +109,36 @@ exports['Verify Token - Dirty'] = function (test) {
     });
 };
 
+exports['Verify Token - Empty String'] = function (test) {
+    authy.verify(test_user.id, '', true, function (err, res) {
+        test.ok(!res);
+        test.equal(typeof(res), 'undefined', 'Response should be undefined.');
+        test.ok(err instanceof Error);
+        test.equal(err.toString(), "Error: argument 'token' cannot be empty, null, or undefined");
+        test.done();
+    });
+};
+
+exports['Verify Token - Null'] = function (test) {
+    authy.verify(test_user.id, null, true, function (err, res) {
+        test.ok(!res);
+        test.equal(typeof(res), 'undefined', 'Response should be undefined.');
+        test.ok(err instanceof Error);
+        test.equal(err.toString(), "Error: argument 'token' cannot be empty, null, or undefined");
+        test.done();
+    });
+};
+
+exports['Verify Token - Undefined'] = function (test) {
+    authy.verify(test_user.id, undefined, true, function (err, res) {
+        test.ok(!res);
+        test.equal(typeof(res), 'undefined', 'Response should be undefined.');
+        test.ok(err instanceof Error);
+        test.equal(err.toString(), "Error: argument 'token' cannot be empty, null, or undefined");
+        test.done();
+    });
+};
+
 /*
  *  Request SMS Tests
  */
