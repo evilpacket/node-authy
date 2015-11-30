@@ -1,22 +1,18 @@
 # node-authy [![Dependency Status](https://david-dm.org/evilpacket/node-authy.png)](https://david-dm.org/evilpacket/node-authy)
 
-[Authy](https://authy.com/) API Client for node.js
+[Authy](https://authy.com/) API Client for Node.js written by Adam Baldwin.
 
-Usage
-=====
-
-Installation
-------------
+## Installation
 
 ```
 npm install authy
 ```
 
-When in doubt check out the official [Authy API docs](http://docs.authy.com/)
+When in doubt check out the official [Authy API docs](http://docs.authy.com/).
 
+## Usage
 
-Require all the things
-----------------------
+#### Requiring node-authy
 
 ```javascript
 var authy = require('authy')('APIKEY');
@@ -28,9 +24,7 @@ If you want to use the sandbox for testing require this way.
 var authy = require('authy')('SANDBOX_APIKEY', 'http://sandbox-api.authy.com');
 ```
 
-
-Register New User
------------------
+#### Register New User
 
 register_user(email, cellphone, [country_code], [send_install_link_via_sms], callback);
 
@@ -43,8 +37,7 @@ authy.register_user('baldwin@andyet.net', '509-555-1212', function (err, res) {
 
 If not given, `country_code` defaults to `"1"` and `send_install_link_via_sms` defaults to `true`.
 
-Verify Token
-------------
+#### Verify Token
 
 verify(id, token, [force], callback);
 
@@ -54,8 +47,7 @@ authy.verify('1337', '0000000', function (err, res) {
 });
 ```
 
-Request SMS
------------
+#### Request SMS
 
 request_sms(id, [force], callback);
 
@@ -65,8 +57,7 @@ authy.request_sms('1337', function (err, res) {
 });
 ```
 
-Request Call (Email support@authy.com to enable this feature)
--------------------------------------------------------------
+#### Request Call (Email support@authy.com to enable this feature)
 
 request_call(id, [force], callback);
 
@@ -76,8 +67,7 @@ authy.request_call('1337', function (err, res) {
 });
 ```
 
-Delete Registered User
-----------------------
+#### Delete Registered User
 
 delete_user(id, callback);
 
@@ -87,8 +77,7 @@ authy.delete_user('1337', function (err, res) {
 });
 ```
 
-Get Registered User Status
---------------------------
+#### Get Registered User Status
 
 user_status(id, callback);
 
@@ -98,8 +87,7 @@ authy.user_status('1337', function (err, res) {
 });
 ```
 
-Start Phone Verification
-------------------------
+#### Start Phone Verification
 
 phones().verification_start(phone_number, country_code, via, callback);
 
@@ -109,8 +97,7 @@ authy.phones().verification_start('111-111-1111', '1', 'sms', function(err, res)
 });
 ```
 
-Check Phone Verification
-------------------------
+#### Check Phone Verification
 
 phones().verification_check(phone_number, country_code, verification_code, callback);
 
@@ -120,18 +107,18 @@ authy.phones().verification_check('111-111-1111', '1', '0000', function (err, re
 });
 ```
 
-Get Phone Info
-------------------------
+#### Get Phone Info
 
 phones().info(phone_number, country_code, callback);
 
 ```javascript
-authy.phones().info('111-111-1111-, '1', function (err, res) {
+authy.phones().info('111-111-1111-', '1', function (err, res) {
 
 });
 ```
 
-Additional Contributors
------------------------
-[Daniel Barnes](https://github.com/DanielBarnes)
+***
 
+##### Contributors
+
+- [Daniel Barnes](https://github.com/DanielBarnes)
