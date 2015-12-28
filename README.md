@@ -126,7 +126,7 @@ Get Phone Info
 phones().info(phone_number, country_code, callback);
 
 ```javascript
-authy.phones().info('111-111-1111-, '1', function (err, res) {
+authy.phones().info('111-111-1111', '1', function (err, res) {
 
 });
 ```
