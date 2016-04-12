@@ -233,6 +233,34 @@ exports.phones = {
                 }
             );
         },
+
+        with_params: function (test) {
+            test.expect(1);
+            var params = {
+                via: "sms",
+                locale: "pl",
+                custom_message: "This is a custom message"
+            }
+            authy.phones().verification_start("111-111-1111", "1", params,
+                function (err, res) {
+                    test.ok(res);
+                    test.done();
+                }
+            );
+        },
+
+        with_params_locale_only: function (test) {
+            test.expect(1);
+            var params = {
+                locale: "pl"
+            }
+            authy.phones().verification_start("111-111-1111", "1", params,
+                function (err, res) {
+                    test.ok(res);
+                    test.done();
+                }
+            );
+        }
     },
 
     verification_check: function (test) {
