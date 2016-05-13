@@ -89,13 +89,16 @@ authy.user_status('1337', function (err, res) {
 
 #### Start Phone Verification
 
-phones().verification_start(phone_number, country_code, via, callback);
+phones().verification_start(phone_number, country_code, params, callback);
 
 ```javascript
-authy.phones().verification_start('111-111-1111', '1', 'sms', function(err, res) {
+authy.phones().verification_start('111-111-1111', '1', { via: 'sms', locale: 'pl', custom_message: 'My message' }, function(err, res) {
 
 });
 ```
+
+The `params` argument is optional and sets 'sms' as the default `via`, leaving the other two options blank.
+
 
 #### Check Phone Verification
 
