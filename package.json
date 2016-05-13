@@ -24,7 +24,7 @@
   "author": "Adam Baldwin <baldwin@andyet.net>",
   "license": "MIT",
   "dependencies": {
-    "request": "2.42.0"
+    "request": "^2.72.0"
   },
   "devDependencies": {
     "nodeunit": "*"
