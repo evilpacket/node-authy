@@ -1,6 +1,6 @@
 {
   "name": "authy",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Authy.com API lib for node.js",
   "main": "index.js",
   "directories": {
