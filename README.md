@@ -24,6 +24,46 @@ If you want to use the sandbox for testing require this way.
 var authy = require('authy')('SANDBOX_APIKEY', 'http://sandbox-api.authy.com');
 ```
 
+#### Send OneTouch
+[OneTouch API docs](http://docs.authy.com/onetouch.html#onetouch-api) are the source of truth.
+send_approval_request(id,user_payload,hidden_details,logos,callback)
+```javascript
+authy.send_approval_request('1337', user_payload, [hidden_details], [logos], function (err, res) {
+    // res = {"approval_request":{"uuid":"########-####-####-####-############"},"success":true}
+});
+```
+
+* id is the Authy id.
+* user_payload:  { 'message': 'user message here', ['details': {...}] }
+* hidden_details: optional
+* logos: optional 
+
+#### Check Approval Status
+
+check_approval_status (uuid,callback)
+```javascript
+authy.check_approval_status(uuid, function(err, res) {
+    res = {
+      "approval_request": {
+        "_app_name": YOUR_APP_NAME,
+        "_app_serial_id": APP_SERIAL_ID,
+        "_authy_id": AUTHY_ID,
+        "_id": INTERNAL_ID,
+        "_user_email": EMAIL_ID,
+        "app_id": APP_ID,
+        "created_at": TIME_STAMP,
+        "notified": false,
+        "processed_at": null,
+        "seconds_to_expire": 600,
+        "status": 'pending',
+        "updated_at": TIME_STAMP,
+        "user_id": USER_ID,
+        "uuid": UUID
+      },
+      "success": true
+    }
+});
+```
 #### Register New User
 
 register_user(email, cellphone, [country_code], [send_install_link_via_sms], callback);
