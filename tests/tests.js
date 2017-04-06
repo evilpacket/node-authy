@@ -175,6 +175,26 @@ exports['Request Call - Force'] = function (test) {
     });
 };
 
+exports['OneTouch Create Request'] = function (test){
+    var user_payload = { 'message': 'Your message here'};
+    authy.send_approval_request(test_user.id, user_payload, {}, null, function(err, res){
+        test.ok(res);
+        test.equal(typeof(res), 'object', 'Response should be an object.');
+        test_user.uuid = res.approval_request.uuid;
+        test.done();
+    });
+};
+
+exports['OneTouch Check Approval Status'] = function (test){
+    var user_payload = { 'message': 'Your message here'};
+    authy.send_approval_request(test_user.uuid, function(err, res){
+        test.ok(res);
+        test.equal(typeof(res), 'object', 'Response should be an object.');
+        test.equal(res.approval_request.status, 'pending', 'Request should be pending');
+        test.done();
+    });
+};
+
 /*
  *  Users tests
  */

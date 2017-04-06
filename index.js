@@ -145,6 +145,34 @@ Authy.prototype.phones = function() {
     };
 };
 
+Authy.prototype.check_approval_status= function (uuid,callback){
+    var url="/onetouch/json/approval_requests/"+uuid;
+    this._request("get", url, {}, callback);
+};
+
+Authy.prototype.send_approval_request= function (id,user_payload,hidden_details,logos,callback){
+    var url="/onetouch/json/users/"+querystring.escape(id)+"/approval_requests";
+
+    var message_parameters = {
+        "message": user_payload.message,
+        "details": user_payload.details || {},
+        "hidden_details": hidden_details || {}
+    };
+
+    // only add logos if provided
+    if(logos){
+        message_parameters['logos'] = logos;
+    }
+
+    // only add expiration time if provided
+    if(user_payload.seconds_to_expire){
+        message_parameters['seconds_to_expire'] = user_payload.seconds_to_expire;
+    }
+
+    this._request("post", "/onetouch/json/users/"+querystring.escape(id)+"/approval_requests", message_parameters, callback);
+
+};
+
 Authy.prototype._request = function(type, path, params, callback, qs) {
     qs = qs || {}
     qs['api_key'] = this.apiKey;
