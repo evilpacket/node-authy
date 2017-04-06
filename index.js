@@ -104,6 +104,10 @@ Authy.prototype.request_call = function (id, force, callback) {
     this._request("get", "/protected/json/call/" + querystring.escape(id), {}, callback, qs);
 };
 
+Authy.prototype.application_stats = function (callback) {
+    this._request("get", "/protected/json/app/stats", {}, callback, {});
+};
+
 Authy.prototype.phones = function() {
     self = this;
     return {

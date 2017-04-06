@@ -196,6 +196,16 @@ exports['OneTouch Check Approval Status'] = function (test){
 };
 
 /*
+ * Application stats
+ */
+exports['Application stats'] = function (test) {
+    authy.application_stats(function (err, res) {
+        test.ok(res);
+        test.done();
+    });
+};
+
+/*
  *  Users tests
  */
 exports.users = {
