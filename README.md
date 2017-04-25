@@ -97,7 +97,7 @@ authy.request_sms('1337', function (err, res) {
 });
 ```
 
-#### Request Call (Email support@authy.com to enable this feature)
+#### Request Call 
 
 request_call(id, [force], callback);
 
