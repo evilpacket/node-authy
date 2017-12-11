@@ -118,10 +118,10 @@ Authy.prototype.phones = function() {
             options = {
                 phone_number: phone_number,
                 country_code: country_code,
-                via: params.via || "sms",
-                locale: params.locale,
-                custom_message: params.custom_message
+                via: params.via || "sms"
             };
+
+            options = Object.assign(options, params);
 
             self._request("post", "/protected/json/phones/verification/start", options, callback);
         },
