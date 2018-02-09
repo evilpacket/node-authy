@@ -105,7 +105,7 @@ Authy.prototype.application_stats = function (callback) {
 Authy.prototype.phones = function() {
     self = this;
     return {
-        verification_start: function(phone_number, country_code, via, callback) {
+        verification_start: function(phone_number, country_code, via, callback, code_length) {
             if(arguments.length == 3) {
                 callback = via;
                 via = "sms";
@@ -115,6 +115,9 @@ Authy.prototype.phones = function() {
                 country_code: country_code,
                 via: via
             };
+            if(!!code_length){
+                options.code_length = code_length
+            }
             self._request("post", "/protected/json/phones/verification/start", options, callback);
         },
 
