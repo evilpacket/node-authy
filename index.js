@@ -109,9 +109,11 @@ Authy.prototype.phones = function() {
             options = {
                 phone_number: phone_number,
                 country_code: country_code,
-                via: via,
-                code_length: code_length ? code_length : undefined
+                via: via
             };
+            if(!!code_length){
+                options.code_length = code_length
+            }
             self._request("post", "/protected/json/phones/verification/start", options, callback);
         },
 
