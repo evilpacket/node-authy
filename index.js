@@ -120,7 +120,9 @@ Authy.prototype.phones = function() {
                 country_code: country_code,
                 via: params.via || "sms",
                 locale: params.locale,
-                custom_message: params.custom_message
+                custom_message: params.custom_message,
+                code_length: params.code_length,
+                custom_code: params.custom_code
             };
 
             self._request("post", "/protected/json/phones/verification/start", options, callback);
