@@ -1,6 +1,6 @@
 # node-authy [![Dependency Status](https://david-dm.org/evilpacket/node-authy.png)](https://david-dm.org/evilpacket/node-authy)
 
-[Authy](https://authy.com/) API Client for Node.js written by Adam Baldwin.
+[Authy](https://www.twilio.com/authy) and [Verify](https://www.twilio.com/verify) API Client for Node.js written by Adam Baldwin.
 
 ## Installation
 
@@ -8,7 +8,7 @@
 npm install authy
 ```
 
-When in doubt check out the official [Authy API docs](http://docs.authy.com/).
+When in doubt check out the official [Authy](https://www.twilio.com/docs/authy) and [Verify](https://www.twilio.com/docs/verify) docs.
 
 ## Usage
 
@@ -18,14 +18,8 @@ When in doubt check out the official [Authy API docs](http://docs.authy.com/).
 var authy = require('authy')('APIKEY');
 ```
 
-If you want to use the sandbox for testing require this way.
-
-```javascript
-var authy = require('authy')('SANDBOX_APIKEY', 'http://sandbox-api.authy.com');
-```
-
 #### Send OneTouch
-[OneTouch API docs](http://docs.authy.com/onetouch.html#onetouch-api) are the source of truth.
+[OneTouch API docs](https://www.twilio.com/docs/authy/api/push-authentications) are the source of truth.
 send_approval_request(id,user_payload,hidden_details,logos,callback)
 ```javascript
 authy.send_approval_request('1337', user_payload, [hidden_details], [logos], function (err, res) {
@@ -65,6 +59,7 @@ authy.check_approval_status(uuid, function(err, res) {
 });
 ```
 #### Register New User
+[User API Information](https://www.twilio.com/docs/authy/api/users)
 
 register_user(email, cellphone, [country_code], [send_install_link_via_sms], callback);
 
@@ -97,7 +92,7 @@ authy.request_sms('1337', function (err, res) {
 });
 ```
 
-#### Request Call (Email support@authy.com to enable this feature)
+#### Request Call
 
 request_call(id, [force], callback);
 
@@ -128,11 +123,12 @@ authy.user_status('1337', function (err, res) {
 ```
 
 #### Start Phone Verification
+Browse the [API docs](https://www.twilio.com/docs/verify/api/verification) for all available params.
 
 phones().verification_start(phone_number, country_code, params, callback);
 
 ```javascript
-authy.phones().verification_start('111-111-1111', '1', { via: 'sms', locale: 'pl', custom_message: 'My message' }, function(err, res) {
+authy.phones().verification_start('111-111-1111', '1', { via: 'sms', locale: 'en', code_length: '6' }, function(err, res) {
 
 });
 ```
@@ -141,6 +137,7 @@ The `params` argument is optional and sets 'sms' as the default `via`, leaving t
 
 
 #### Check Phone Verification
+Browse the [API docs](https://www.twilio.com/docs/verify/api/verification) for all available params.
 
 phones().verification_check(phone_number, country_code, verification_code, callback);
 
@@ -150,18 +147,8 @@ authy.phones().verification_check('111-111-1111', '1', '0000', function (err, re
 });
 ```
 
-#### Get Phone Info
-
-phones().info(phone_number, country_code, callback);
-
-```javascript
-authy.phones().info('111-111-1111-', '1', function (err, res) {
-
-});
-```
-
-***
 
 ##### Contributors
 
 - [Daniel Barnes](https://github.com/DanielBarnes)
+- [Josh Staples](https://github.com/josh-authy)
