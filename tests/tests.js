@@ -1,12 +1,12 @@
 var apikey = "0cd08abec2e9b9641e40e9470a7fc336";
-var authy = require('../index')(apikey,'http://sandbox-api.authy.com');
+var authy = require('../index')(apikey, 'http://sandbox-api.authy.com');
 
 var test_user = {email: 'baldwin@andyet.net', phone: '825-589-8570', country: '57'};
 
 /*
  * Nodeunit swallows uncaught exceptions--get them back!
  */
-process.on('uncaughtException', function(err) {
+process.on('uncaughtException', function (err) {
     console.error(err.stack);
 });
 
@@ -175,9 +175,9 @@ exports['Request Call - Force'] = function (test) {
     });
 };
 
-exports['OneTouch Create Request'] = function (test){
-    var user_payload = { 'message': 'Your message here'};
-    authy.send_approval_request(test_user.id, user_payload, {}, null, function(err, res){
+exports['OneTouch Create Request'] = function (test) {
+    var user_payload = {'message': 'Your message here'};
+    authy.send_approval_request(test_user.id, user_payload, {}, null, function (err, res) {
         test.ok(res);
         test.equal(typeof(res), 'object', 'Response should be an object.');
         test_user.uuid = res.approval_request.uuid;
@@ -185,9 +185,9 @@ exports['OneTouch Create Request'] = function (test){
     });
 };
 
-exports['OneTouch Check Approval Status'] = function (test){
-    var user_payload = { 'message': 'Your message here'};
-    authy.send_approval_request(test_user.uuid, function(err, res){
+exports['OneTouch Check Approval Status'] = function (test) {
+    var user_payload = {'message': 'Your message here'};
+    authy.send_approval_request(test_user.uuid, function (err, res) {
         test.ok(res);
         test.equal(typeof(res), 'object', 'Response should be an object.');
         test.equal(res.approval_request.status, 'pending', 'Request should be pending');
@@ -259,7 +259,9 @@ exports.phones = {
             var params = {
                 via: "sms",
                 locale: "pl",
-                custom_message: "This is a custom message"
+                custom_message: "This is a custom message",
+                code_length: "6",
+                custom_code: "12345"
             }
             authy.phones().verification_start("111-111-1111", "1", params,
                 function (err, res) {

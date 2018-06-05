@@ -118,7 +118,11 @@ Authy.prototype.phones = function() {
             options = {
                 phone_number: phone_number,
                 country_code: country_code,
-                via: params.via || "sms"
+                via: params.via || "sms",
+                locale: params.locale,
+                custom_message: params.custom_message,
+                code_length: params.code_length,
+                custom_code: params.custom_code
             };
 
             options = Object.assign(options, params);
