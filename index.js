@@ -125,6 +125,8 @@ Authy.prototype.phones = function() {
                 custom_code: params.custom_code
             };
 
+            options = Object.assign(options, params);
+
             self._request("post", "/protected/json/phones/verification/start", options, callback);
         },
 
