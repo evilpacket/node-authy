@@ -139,6 +139,14 @@ Authy.prototype.phones = function() {
             self._request("get", "/protected/json/phones/verification/check", options, callback);
         },
 
+        verification_status: function(phone_number, country_code, callback) {
+          options = {
+            phone_number: phone_number,
+            country_code: country_code,
+          };
+          self._request("get", "/protected/json/phones/verification/status", options, callback);
+        },
+
         info: function(phone_number, country_code, callback) {
             options = {
                 phone_number: phone_number,

@@ -148,8 +148,20 @@ authy.phones().verification_check('111-111-1111', '1', '0000', function (err, re
 });
 ```
 
+#### Status of Phone Verification
+Browse the [API docs](https://www.twilio.com/docs/verify/api/verification) for all available params.
+
+phones().verification_status(phone_number, country_code, callback);
+
+```javascript
+authy.phones().verification_status('111-111-1111', '1', function (err, res) {
+
+});
+```
+
 
 ##### Contributors
 
 - [Daniel Barnes](https://github.com/DanielBarnes)
 - [Josh Staples](https://github.com/josh-authy)
+- [Christian Muertz](https://github.com/christian-muertz)
