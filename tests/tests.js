@@ -295,6 +295,16 @@ exports.phones = {
         );
     },
 
+    verification_status: function (test) {
+        test.expect(1);
+        authy.phones().verification_status("111-111-1111", "1",
+            function (err, res) {
+                test.ok(res);
+                test.done();
+            }
+        );
+    },
+
     info: function (test) {
         test.expect(1);
         authy.phones().info("7754615609", "1",
