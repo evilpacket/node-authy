@@ -6,6 +6,8 @@ module.exports = function (api_key, api_url) {
     return new Authy(api_key, api_url);
 };
 
+module.exports.Authy = Authy;
+
 function Authy(apiKey, api_url) {
     this.apiKey = apiKey;
     this.apiURL = api_url || "https://api.authy.com";
